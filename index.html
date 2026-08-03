@@ -19,7 +19,7 @@
   html,body{margin:0;padding:0;}
   body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;-webkit-font-smoothing:antialiased;}
   .topbar{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:2px solid var(--ink);padding:22px clamp(16px,4vw,48px) 18px;}
-  .eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:6px;}
+  .eyebrow{font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:8px;}
   h1{margin:0;font-size:clamp(22px,2.6vw,32px);font-weight:800;letter-spacing:-.01em;line-height:1.1;}
   .sub{margin-top:6px;font-size:13.5px;color:var(--ink-60);max-width:760px;line-height:1.5;}
   .topbar-meta{display:flex;gap:22px;margin-top:14px;flex-wrap:wrap;}
@@ -78,6 +78,14 @@
   .cupos-bar .fillsc{background:var(--accent);height:100%;}
   footer{padding:20px clamp(16px,4vw,48px) 40px;color:var(--ink-40);font-size:11.5px;line-height:1.6;}
   footer b{color:var(--ink-60);}
+  .opts-panel{background:var(--white);border:1px solid var(--ink-15);border-radius:14px;padding:18px 20px 6px;margin-bottom:22px;}
+  .opts-panel-title{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--accent);margin:0 0 4px;}
+  .opts-panel h3{margin:0 0 12px;font-size:17px;font-weight:800;letter-spacing:-.01em;}
+  .opts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px 18px;padding-bottom:16px;}
+  .opt-intro-item{padding-bottom:10px;}
+  .opt-intro-item .num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--white);font-size:11px;font-weight:800;margin-right:7px;}
+  .opt-intro-item .name{font-size:13px;font-weight:800;}
+  .opt-intro-item .desc{font-size:12px;color:var(--ink-60);line-height:1.45;margin-top:4px;margin-left:27px;}
   @media (max-width:480px){.rm-grid{grid-template-columns:repeat(2,1fr);}.meta-sub{grid-template-columns:repeat(2,1fr);}}
 </style>
 </head>
@@ -85,17 +93,33 @@
 <div class="topbar">
   <div class="eyebrow">UAH · Facultad de Economía y Negocios</div>
   <h1>Visualizador de Metas 2027</h1>
-  <div class="sub">Matrícula histórica, contexto de sistema RM y proyección de metas 2027 por carrera. Cambia la opción elegida en cada tarjeta para recalcular la meta de admisión acumulada, centralizada y directa.</div>
+  <div class="sub">Proyección de metas 2027 por carrera.</div>
   <div class="topbar-meta" id="topbarStats"></div>
 </div>
-<main><div class="grid" id="cardsGrid"></div></main>
+<main>
+  <div class="opts-panel">
+    <div class="opts-panel-title">Guía de opciones</div>
+    <h3>Opciones de proyección de meta (1–9)</h3>
+    <div class="opts-grid">
+    <div class="opt-intro-item"><span class="num">1</span><span class="name">Promedio 3 años (2024–2026)</span><div class="desc">Promedio simple de la matrícula al 30 de abril de los últimos tres años (2024, 2025 y 2026).</div></div>
+    <div class="opt-intro-item"><span class="num">2</span><span class="name">Promedio 2 años (2025–2026)</span><div class="desc">Promedio simple de la matrícula al 30 de abril de los últimos dos años (2025 y 2026).</div></div>
+    <div class="opt-intro-item"><span class="num">3</span><span class="name">Último año (2026)</span><div class="desc">Usa directamente la matrícula al 30 de abril de 2026 como meta para 2027.</div></div>
+    <div class="opt-intro-item"><span class="num">4</span><span class="name">+5% último año</span><div class="desc">Aplica un incremento del 5% sobre la matrícula al 30 de abril de 2026.</div></div>
+    <div class="opt-intro-item"><span class="num">5</span><span class="name">Meta 2026 (1er semestre)</span><div class="desc">Usa la meta de matrícula que se había fijado para el primer semestre de 2026.</div></div>
+    <div class="opt-intro-item"><span class="num">6</span><span class="name">60% lista de espera</span><div class="desc">Suma a la matrícula del último año el 60% de los postulantes que quedaron en lista de espera en el proceso 2026.</div></div>
+    </div>
+    <div class="opts-panel-title" style="margin-top:4px;">Solo para carreras de pedagogía</div>
+    <div class="opts-grid">
+    <div class="opt-intro-item"><span class="num">7</span><span class="name">Matrícula último año × No cumple requisito 2027</span><div class="desc">Ajusta la matrícula del último año descontando a quienes no cumplirían el nuevo requisito de ingreso vigente desde 2027.</div></div>
+    <div class="opt-intro-item"><span class="num">8</span><span class="name">Tendencia crecimiento 2025–2026 UAH × No cumple requisito 2027</span><div class="desc">Proyecta la matrícula según la tendencia de crecimiento de la UAH entre 2025 y 2026, ajustada por quienes no cumplirían el nuevo requisito de ingreso 2027.</div></div>
+    <div class="opt-intro-item"><span class="num">9</span><span class="name">Tendencia crecimiento 2025–2026 UAH</span><div class="desc">Proyecta la matrícula 2027 siguiendo la tendencia de crecimiento observada en la UAH entre 2025 y 2026.</div></div>
+    </div>
+  </div>
+  <div class="grid" id="cardsGrid"></div>
+</main>
 <footer>Fórmula de recálculo — Admisión acumulada = MÚLTIPLO.SUPERIOR( Meta 30 abril / (1 − %pérdida acum. 2026) ; 1 ). Centralizada = admisión acumulada × % matrícula centralizada sobre seleccionados 2026. Directa = admisión acumulada − centralizada. Cupos 2026/2027 y sobrecupos son asignaciones fijas del plan y no varían con la opción elegida.</footer>
 <script>
-const DATA = [
-{"carrera": "Contador Público Auditor", "facultad": "Economía y Negocios", "siga": 41, "demre": 45041, "hist": [23, 48, 51, 58, 70], "histYears": [2022, 2023, 2024, 2025, 2026], "AB": 61, "AN": 62, "S": 0.0141, "BD": 0.76, "AH": 6, "PC26": 0.802817, "MAJ": 102, "MAK": 82, "MAL": 20, "opciones": {"1": {"label": "Prom 3 años (2024–2026)", "val": 60}, "2": {"label": "Prom 2 años (2025–2026)", "val": 64}, "3": {"label": "Últ. año (2026)", "val": 70}, "4": {"label": "+5% últ. año", "val": 74}, "5": {"label": "Meta 2026 (1er sem)", "val": 61}, "6": {"label": "60% lista de espera", "val": 99}, "7": {"label": "Mat. últ. año × No cumpl. req. 2027", "val": "-"}, "8": {"label": "Tend. crec. 2025–2026 UAH × No cumpl. req.", "val": "-"}, "9": {"label": "Tend. crec. 2025–2026 UAH", "val": "-"}}, "AG": 92, "AO": 12, "AP": -13, "AQ": 152, "AR": 0.16, "AX": 45, "AY": 30, "AZ": 75, "BA": 35},
-{"carrera": "Gestión de Información Biblio. y Arch.", "facultad": "Economía y Negocios", "siga": 28, "demre": 45028, "hist": [18, 20, 16, 16, 25], "histYears": [2022, 2023, 2024, 2025, 2026], "AB": 16, "AN": 18, "S": 0.0741, "BD": 0.904762, "AH": 2, "PC26": 0.703704, "MAJ": 23, "MAK": 16, "MAL": 7, "opciones": {"1": {"label": "Prom 3 años (2024–2026)", "val": 19}, "2": {"label": "Prom 2 años (2025–2026)", "val": 20}, "3": {"label": "Últ. año (2026)", "val": 25}, "4": {"label": "+5% últ. año", "val": 26}, "5": {"label": "Meta 2026 (1er sem)", "val": 16}, "6": {"label": "60% lista de espera", "val": 25}, "7": {"label": "Mat. últ. año × No cumpl. req. 2027", "val": "-"}, "8": {"label": "Tend. crec. 2025–2026 UAH × No cumpl. req.", "val": "-"}, "9": {"label": "Tend. crec. 2025–2026 UAH", "val": "-"}}, "AG": 15, "AO": 1, "AP": 5, "AQ": 2, "AR": 0.1538, "AX": 20, "AY": 5, "AZ": 20, "BA": 5},
-{"carrera": "Ingeniería Comercial", "facultad": "Economía y Negocios", "siga": 1, "demre": 45001, "hist": [96, 162, 138, 155, 178], "histYears": [2022, 2023, 2024, 2025, 2026], "AB": 155, "AN": 170, "S": 0.0582, "BD": 0.769231, "AH": 6, "PC26": 0.793651, "MAJ": 278, "MAK": 221, "MAL": 57, "opciones": {"1": {"label": "Prom 3 años (2024–2026)", "val": 157}, "2": {"label": "Prom 2 años (2025–2026)", "val": 166}, "3": {"label": "Últ. año (2026)", "val": 178}, "4": {"label": "+5% últ. año", "val": 187}, "5": {"label": "Meta 2026 (1er sem)", "val": 155}, "6": {"label": "60% lista de espera", "val": 258}, "7": {"label": "Mat. últ. año × No cumpl. req. 2027", "val": "-"}, "8": {"label": "Tend. crec. 2025–2026 UAH × No cumpl. req.", "val": "-"}, "9": {"label": "Tend. crec. 2025–2026 UAH", "val": "-"}}, "AG": 219, "AO": 21, "AP": -37, "AQ": -88, "AR": -0.0188, "AX": 145, "AY": 50, "AZ": 200, "BA": 90}
-];
+const DATA = [{"carrera": "Contador Público Auditor", "facultad": "Economía y Negocios", "siga": 41, "demre": 45041, "hist": [23, 48, 51, 58, 70], "histYears": [2022, 2023, 2024, 2025, 2026], "AB": 61, "AN": 62, "S": 0.02218995075285357, "BD": 0.76, "AH": 6, "PC26": 0.8028169014084507, "MAJ": 102, "MAK": 82, "MAL": 20, "opciones": {"1": {"label": "Promedio 3 años (2024–2026)", "val": 60}, "2": {"label": "Promedio 2 años (2025–2026)", "val": 64}, "3": {"label": "Último año (2026)", "val": 70}, "4": {"label": "+5% último año", "val": 74}, "5": {"label": "Meta 2026 (1er semestre)", "val": 61}, "6": {"label": "60% lista de espera", "val": 99}, "7": {"label": "Matrícula último año × No cumple requisito 2027", "val": "-"}, "8": {"label": "Tendencia crecimiento 2025–2026 UAH × No cumple requisito 2027", "val": "-"}, "9": {"label": "Tendencia crecimiento 2025–2026 UAH", "val": "-"}}, "AS": 75, "AX": 45, "AY": 30, "AZ": 75, "BA": 35}, {"carrera": "Gestión de Información Biblio. y Arch.", "facultad": "Economía y Negocios", "siga": 28, "demre": 45028, "hist": [18, 20, 16, 16, 25], "histYears": [2022, 2023, 2024, 2025, 2026], "AB": 16, "AN": 18, "S": 0.09259259259259262, "BD": 0.79, "AH": 2, "PC26": 0.7037037037037037, "MAJ": 23, "MAK": 16, "MAL": 7, "opciones": {"1": {"label": "Promedio 3 años (2024–2026)", "val": 19}, "2": {"label": "Promedio 2 años (2025–2026)", "val": 20}, "3": {"label": "Último año (2026)", "val": 25}, "4": {"label": "+5% último año", "val": 26}, "5": {"label": "Meta 2026 (1er semestre)", "val": 16}, "6": {"label": "60% lista de espera", "val": 25}, "7": {"label": "Matrícula último año × No cumple requisito 2027", "val": "-"}, "8": {"label": "Tendencia crecimiento 2025–2026 UAH × No cumple requisito 2027", "val": "-"}, "9": {"label": "Tendencia crecimiento 2025–2026 UAH", "val": "-"}}, "AS": 21, "AX": 20, "AY": 5, "AZ": 20, "BA": 5}, {"carrera": "Ingeniería Comercial", "facultad": "Economía y Negocios", "siga": 1, "demre": 45001, "hist": [96, 162, 138, 155, 178], "histYears": [2022, 2023, 2024, 2025, 2026], "AB": 155, "AN": 170, "S": 0.0690611238109548, "BD": 0.7692307692307693, "AH": 6, "PC26": 0.7936507936507936, "MAJ": 278, "MAK": 221, "MAL": 57, "opciones": {"1": {"label": "Promedio 3 años (2024–2026)", "val": 157}, "2": {"label": "Promedio 2 años (2025–2026)", "val": 166}, "3": {"label": "Último año (2026)", "val": 178}, "4": {"label": "+5% último año", "val": 187}, "5": {"label": "Meta 2026 (1er semestre)", "val": 155}, "6": {"label": "60% lista de espera", "val": 258}, "7": {"label": "Matrícula último año × No cumple requisito 2027", "val": "-"}, "8": {"label": "Tendencia crecimiento 2025–2026 UAH × No cumple requisito 2027", "val": "-"}, "9": {"label": "Tendencia crecimiento 2025–2026 UAH", "val": "-"}}, "AS": 195, "AX": 145, "AY": 50, "AZ": 205, "BA": 85}];
 
 function pct(x,d=1){ if(x===null||x===undefined||x==='-') return '—'; return (x*100).toFixed(d)+'%'; }
 function num(x){ if(x===null||x===undefined||x==='-') return '—'; return Math.round(x).toLocaleString('es-CL'); }
@@ -108,9 +132,8 @@ function calcMetas(row){
 function buildTopbar(){
   const el = document.getElementById('topbarStats');
   const totalAI = DATA.reduce((s,r)=>{const m=calcMetas(r);return s+(m?m.AI:0);},0);
-  const totalCupos27 = DATA.reduce((s,r)=>s+(r.AZ||0),0);
   const totalHist2026 = DATA.reduce((s,r)=>s+r.hist[4],0);
-  el.innerHTML = `<div class="stat"><b>${DATA.length}</b>Carreras</div><div class="stat"><b>${num(totalHist2026)}</b>Matrícula 30 abr 2026 (total)</div><div class="stat"><b>${num(totalAI)}</b>Meta 30 abr 2027 (suma)</div><div class="stat"><b>${num(totalCupos27)}</b>Cupos 2027 (total)</div>`;
+  el.innerHTML = `<div class="stat"><b>${DATA.length}</b>Carreras</div><div class="stat"><b>${num(totalHist2026)}</b>Matrícula 30 abr 2026</div><div class="stat"><b>${num(totalAI)}</b>Meta 30 abr 2027</div>`;
 }
 function renderCard(row, idx){
   const cardId = 'card_'+idx;
@@ -120,40 +143,26 @@ function renderCard(row, idx){
     const isCurrent = i===row.hist.length-1;
     return `<div class="hist-bar-wrap"><div class="hist-val">${num(v)}</div><div class="hist-bar ${isCurrent?'current':''}" style="height:${h}%"></div><div class="hist-year">${row.histYears[i]}</div></div>`;
   }).join('');
-  const cumplPct = row.AB ? (row.hist[4]/row.AB) : null;
-  const cumplClass = cumplPct!==null && cumplPct>=1 ? 'ok' : 'warn';
-  const rmItems = [
-    {v:num(row.AG), l:'Prom. matrícula sistema RM 2026 (excl. UAH)'},
-    {v:num(row.AO), l:'N° instituciones sistema RM'},
-    {v:signedNum(row.AP), l:'UAH vs prom. sistema RM (N)', cls: row.AP>=0?'pos':'neg'},
-    {v:signedNum(row.AQ), l:'Crecimiento N sistema RM', cls: row.AQ>=0?'pos':'neg'},
-    {v:pct(row.AR,1), l:'% crecimiento sistema RM', cls: row.AR>=0?'pos':'neg'},
-    {v:pct(row.BD,1), l:'% matrícula centralizada / seleccionados 2026'},
-  ];
-  const rmHtml = rmItems.map(it=>`<div class="rm-item"><div class="v ${it.cls||''}">${it.v}</div><div class="l">${it.l}</div></div>`).join('');
   const chosenOpt = row.opciones[String(row.AH)];
+  const cupos2026Total = (row.AX||0) + (row.AY||0);
+  const cupos2027Total = (row.AZ||0) + (row.BA||0);
   return `<div class="card" data-card="${cardId}">
     <div class="card-head"><div class="tag">${row.facultad}</div><h2>${row.carrera}</h2><div class="codes">SIGA ${row.siga} · DEMRE ${row.demre}</div></div>
-    <div class="section"><div class="section-title">Contexto · Sistema RM</div><div class="rm-grid">${rmHtml}</div></div>
-    <div class="section"><div class="section-title">Matrícula histórica (30 abril)</div><div class="hist-row">${histBars}</div>
-      <div class="cumpl-row"><span class="cumpl-label">Cumplimiento meta 2026 (1er sem.)</span><span class="cumpl-badge ${cumplClass}">${cumplPct!==null?pct(cumplPct,0):'—'}</span></div></div>
+    <div class="section"><div class="section-title">Matrícula histórica (30 abril)</div><div class="hist-row">${histBars}</div></div>
     <div class="section"><div class="section-title">Opción elegida</div>
       <div class="opt-row selected" style="cursor:default;"><span>Op ${row.AH} · ${chosenOpt.label}</span><span class="val">${num(chosenOpt.val)}</span></div></div>
     <div class="section"><div class="section-title">Metas 2027</div>
       <div class="meta-hero"><span class="l">Meta 30 abril</span><span class="v" data-out="${cardId}_AI">—</span></div>
-      <div class="meta-sub"><div class="item"><div class="v" data-out="${cardId}_AJ">—</div><div class="l">Admisión acum.</div></div>
+      <div class="meta-sub"><div class="item"><div class="v" data-out="${cardId}_AJ">—</div><div class="l">Admisión</div></div>
         <div class="item"><div class="v" data-out="${cardId}_AK">—</div><div class="l">Centralizada</div></div>
-        <div class="item"><div class="v" data-out="${cardId}_AL">—</div><div class="l">Directa</div></div></div></div>
+        <div class="item"><div class="v" data-out="${cardId}_AL">—</div><div class="l">Directa</div></div></div>
+      <div class="meta-sub" style="margin-top:8px;grid-template-columns:1fr;"><div class="item"><div class="v">${pct(row.BD,1)}</div><div class="l">% matrícula centralizada / seleccionados 2026</div></div></div></div>
     <div class="section"><div class="section-title">Cupos y sobrecupos</div>
       <div class="cupos-grid">
         <div class="cupos-col"><div class="yr">2026</div>
-          <div class="cupos-row"><span class="l">Cupos</span><span class="v">${num(row.AX)}</span></div>
-          <div class="cupos-row"><span class="l">Sobrecupos</span><span class="v">${num(row.AY)}</span></div>
-          <div class="cupos-bar"><div class="fill" style="width:${row.AX/(row.AX+row.AY)*100}%"></div><div class="fillsc" style="width:${row.AY/(row.AX+row.AY)*100}%"></div></div></div>
+          <div class="cupos-row"><span class="l">Total cupos + sobrecupos</span><span class="v">${num(cupos2026Total)}</span></div></div>
         <div class="cupos-col next"><div class="yr">2027</div>
-          <div class="cupos-row"><span class="l">Cupos</span><span class="v">${num(row.AZ)}</span></div>
-          <div class="cupos-row"><span class="l">Sobrecupos</span><span class="v">${num(row.BA)}</span></div>
-          <div class="cupos-bar"><div class="fill" style="width:${row.AZ/(row.AZ+row.BA)*100}%"></div><div class="fillsc" style="width:${row.BA/(row.AZ+row.BA)*100}%"></div></div></div>
+          <div class="cupos-row"><span class="l">Total cupos + sobrecupos</span><span class="v">${num(cupos2027Total)}</span></div></div>
       </div></div>
   </div>`;
 }
